@@ -76,7 +76,7 @@ impl Drop for FdObject {
 
 impl FdEntry {
     pub fn from(file: fs::File) -> Result<Self> {
-        fdentry_impl::determine_type_and_access_rights(&file).map(
+        unsafe { fdentry_impl::determine_type_and_access_rights(&file) }.map(
             |(file_type, rights_base, rights_inheriting)| Self {
                 fd_object: FdObject {
                     file_type,
@@ -95,7 +95,7 @@ impl FdEntry {
     }
 
     pub fn duplicate_stdin() -> Result<Self> {
-        fdentry_impl::determine_type_and_access_rights(&io::stdin()).map(
+        unsafe { fdentry_impl::determine_type_and_access_rights(&io::stdin()) }.map(
             |(file_type, rights_base, rights_inheriting)| Self {
                 fd_object: FdObject {
                     file_type,
@@ -110,7 +110,7 @@ impl FdEntry {
     }
 
     pub fn duplicate_stdout() -> Result<Self> {
-        fdentry_impl::determine_type_and_access_rights(&io::stdout()).map(
+        unsafe { fdentry_impl::determine_type_and_access_rights(&io::stdout()) }.map(
             |(file_type, rights_base, rights_inheriting)| Self {
                 fd_object: FdObject {
                     file_type,
@@ -125,7 +125,7 @@ impl FdEntry {
     }
 
     pub fn duplicate_stderr() -> Result<Self> {
-        fdentry_impl::determine_type_and_access_rights(&io::stderr()).map(
+        unsafe { fdentry_impl::determine_type_and_access_rights(&io::stderr()) }.map(
             |(file_type, rights_base, rights_inheriting)| Self {
                 fd_object: FdObject {
                     file_type,
