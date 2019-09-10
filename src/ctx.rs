@@ -148,11 +148,11 @@ impl WasiCtx {
             .and_then(|ctx| ctx.build())
     }
 
-    pub fn contains_fd_entry(&self, fd: host::__wasi_fd_t) -> bool {
+    pub unsafe fn contains_fd_entry(&self, fd: host::__wasi_fd_t) -> bool {
         self.fds.contains_key(&fd)
     }
 
-    pub fn get_fd_entry(
+    pub unsafe fn get_fd_entry(
         &self,
         fd: host::__wasi_fd_t,
         rights_base: host::__wasi_rights_t,
@@ -165,7 +165,7 @@ impl WasiCtx {
         }
     }
 
-    pub fn get_fd_entry_mut(
+    pub unsafe fn get_fd_entry_mut(
         &mut self,
         fd: host::__wasi_fd_t,
         rights_base: host::__wasi_rights_t,
