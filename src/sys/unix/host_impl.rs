@@ -237,7 +237,7 @@ pub(crate) fn dirent_from_host(host_entry: &nix::libc::dirent) -> Result<host::_
         return Err(Error::EIO);
     }
     let d_type = dirent_filetype_from_host(host_entry)?;
-    entry.d_ino = memory::enc_inode(host_entry.d_ino);
+    entry.d_ino = memory::enc_inode(host_entry.d_ino.into());
     entry.d_next = memory::enc_dircookie(host_entry.d_off as u64);
     entry.d_namlen = memory::enc_u32(d_namlen as u32);
     entry.d_type = memory::enc_filetype(d_type);
@@ -248,7 +248,7 @@ pub(crate) fn dirent_from_host(host_entry: &nix::libc::dirent) -> Result<host::_
 pub(crate) fn dirent_from_host(host_entry: &nix::libc::dirent) -> Result<host::__wasi_dirent_t> {
     let mut entry = unsafe { std::mem::zeroed::<host::__wasi_dirent_t>() };
     let d_type = dirent_filetype_from_host(host_entry)?;
-    entry.d_ino = memory::enc_inode(host_entry.d_ino);
+    entry.d_ino = memory::enc_inode(host_entry.d_ino.into());
     entry.d_next = memory::enc_dircookie(host_entry.d_seekoff);
     entry.d_namlen = memory::enc_u32(u32::from(host_entry.d_namlen));
     entry.d_type = memory::enc_filetype(d_type);
